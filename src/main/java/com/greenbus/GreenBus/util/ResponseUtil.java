@@ -34,6 +34,14 @@ public class ResponseUtil {
         return ResponseEntity.status(apiResponse.getStatusCode()).body(apiResponse);
     }
 
+    public static ResponseEntity<ApiResponse> getUnAuthorisedResponse(Object response) {
+        ApiResponse apiResponse = initApiResponse();
+        apiResponse.setHttpStatus(HttpStatus.UNAUTHORIZED);
+        apiResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+        apiResponse.setResponse(response);
+        return ResponseEntity.status(apiResponse.getStatusCode()).body(apiResponse);
+    }
+
     public static ResponseEntity<ApiResponse> getConflictResponse(Object response)
     {
         ApiResponse apiResponse=initApiResponse();
