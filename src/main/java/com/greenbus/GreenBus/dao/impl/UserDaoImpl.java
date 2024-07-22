@@ -4,6 +4,7 @@ import com.greenbus.GreenBus.dao.UserDao;
 import com.greenbus.GreenBus.data.model.entities.User;
 import com.greenbus.GreenBus.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -13,5 +14,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User saveUser(User user) {
         return userRepo.save(user);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
     }
 }
