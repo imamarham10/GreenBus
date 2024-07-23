@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.NoSuchElementException;
+
 @RequiredArgsConstructor
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -19,5 +21,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByUsername(String username) {
         return userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email).orElseThrow(() -> new NoSuchElementException("No user found for email " + email));
     }
 }

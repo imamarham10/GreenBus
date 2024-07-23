@@ -6,12 +6,15 @@ import com.greenbus.GreenBus.data.model.dto.LoginDto;
 import com.greenbus.GreenBus.data.model.dto.Tokens;
 import com.greenbus.GreenBus.data.model.dto.UserDto;
 import com.greenbus.GreenBus.data.model.entities.User;
+import com.greenbus.GreenBus.service.EmailService;
 import com.greenbus.GreenBus.service.JwtService;
+import com.greenbus.GreenBus.service.OtpService;
 import com.greenbus.GreenBus.service.UserService;
 import com.greenbus.GreenBus.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +25,39 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final OtpService otpService;
+    private final EmailService emailService;
     @Override
     public ResponseEntity<ApiResponse> saveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
+        user.setVerified(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.createEntity();
-        return ResponseUtil.getCreatedResponse(userDao.saveUser(user));
+        userDao.saveUser(user);
+        String otp = otpService.generateOtp();
+        log.info("Otp : {}" + otp);
+        otpService.saveOtp(user.getEmail(), otp);
+        emailService.sendEmail(user.getEmail(), "OTP Verification", "Your otp is: " + otp);
+        return ResponseUtil.getOkResponse("OTP sent to your email");
+    }
+
+    public ResponseEntity<ApiResponse> verifyUser(String email, String otp){
+        if(otpService.validateOtp(email,otp)){
+            User user = userDao.findByEmail(email);
+            user.setVerified(true);
+            userDao.saveUser(user);
+            emailService.sendEmail(user.getEmail(), "Welcome to Green Bus", "Welcome to Green Bus. Thank you for creating your Green Bus profile! Enjoy travelling at affordable prices. ");
+            emailService.sendEmail("arhamimam6@gmail.com", "New User Registered", "A new user has registered with email: " + user.getEmail());
+            return ResponseUtil.getOkResponse("User verified and welcome email sent");
+        }
+        return ResponseUtil.getUnAuthorisedResponse("Invalid Otp");
     }
 
     @Override

@@ -73,7 +73,6 @@ public class GlobalExceptionHandler {
         return ResponseUtil.getBadRequestResponse(exception.getMessage());
     }
 
-
 //    @ExceptionHandler(DuplicateKeyException.class)
 //    public ResponseEntity<ApiResponse> handleDuplicateKeyException(DuplicateKeyException exception){
 //        return ResponseUtil.getBadRequestResponse(CommonConstants.DUPLICATE_VALUE_NOT_ALLOWED);

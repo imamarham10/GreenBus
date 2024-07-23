@@ -26,6 +26,11 @@ public class UserController {
         return userService.authenticateLogin(userDto);
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<ApiResponse> verifyUser(@RequestParam String email, @RequestParam String otp){
+        return userService.verifyUser(email, otp);
+    }
+
 
     @GetMapping("/demo")
     public String demo() {
