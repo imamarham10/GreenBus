@@ -6,4 +6,6 @@ public interface UserDao {
     User saveUser(User user);
 
     User findByUsername(String username);
+
+    User findByEmail(String email);
 }

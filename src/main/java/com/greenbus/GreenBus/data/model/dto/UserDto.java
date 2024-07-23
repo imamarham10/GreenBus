@@ -22,7 +22,7 @@ public class UserDto {
     private String lastName;
     @NotNull(message = "Phone number is mandatory and can't be empty")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number should be 10 digits")
-    private long phoneNumber;
+    private String phoneNumber;
     @NotNull(message = "Roles are mandatory")
     private Set<Role> roles;
 }

@@ -12,4 +12,5 @@ public interface UserService {
     ResponseEntity<ApiResponse> saveUser(UserDto userDto);
     ResponseEntity<ApiResponse> authenticateLogin(LoginDto userDto);
     ResponseEntity<ApiResponse> authenticateRefreshLogin(HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<ApiResponse> verifyUser(String email, String otp);
 }
