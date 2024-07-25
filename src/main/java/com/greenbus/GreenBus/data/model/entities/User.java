@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = CommonConstants.USER)
+@Table(name = CommonConstants.USER_COLLECTION_NAME)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity implements UserDetails {
