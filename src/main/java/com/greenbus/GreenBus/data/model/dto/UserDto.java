@@ -1,5 +1,6 @@
 package com.greenbus.GreenBus.data.model.dto;
 
+import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Role;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class UserDto {
     @NotNull(message = "Phone number is mandatory and can't be empty")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number should be 10 digits")
     private String phoneNumber;
+    @NotNull(message = "Gender is mandatory and can't be empty")
+    private Gender gender;
     @NotNull(message = "Roles are mandatory")
     private Set<Role> roles;
 }

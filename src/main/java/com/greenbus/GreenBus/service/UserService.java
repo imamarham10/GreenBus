@@ -13,4 +13,5 @@ public interface UserService {
     ResponseEntity<ApiResponse> authenticateLogin(LoginDto userDto);
     ResponseEntity<ApiResponse> authenticateRefreshLogin(HttpServletRequest request, HttpServletResponse response);
     ResponseEntity<ApiResponse> verifyUser(String email, String otp);
+    ResponseEntity<ApiResponse> getAllUsers();
 }
