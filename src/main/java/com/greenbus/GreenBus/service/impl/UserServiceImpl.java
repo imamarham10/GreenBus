@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<ApiResponse> getAllUsers() {
+        return ResponseUtil.getOkResponse(userDao.getAllUsers());
+    }
+
+    @Override
     public ResponseEntity<ApiResponse> authenticateLogin(LoginDto userDto) {
         User user = userDao.findByUsername(userDto.getUsername());
         if (user == null) {

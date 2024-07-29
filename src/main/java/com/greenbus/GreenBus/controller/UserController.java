@@ -42,4 +42,9 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticateRefreshLogin(request, response));
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.greenbus.GreenBus.data.model.entities;
 
 import com.greenbus.GreenBus.data.model.dto.BaseEntity;
+import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Role;
 import com.greenbus.GreenBus.util.CommonConstants;
 import jakarta.persistence.*;
@@ -41,6 +42,8 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Role> roles = new HashSet<>();
     @Column(nullable = false)
     private boolean isVerified;
+    @Column(nullable = false)
+    private Gender gender;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
