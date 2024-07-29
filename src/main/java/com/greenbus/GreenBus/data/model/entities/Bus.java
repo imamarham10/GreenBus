@@ -1,5 +1,6 @@
 package com.greenbus.GreenBus.data.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenbus.GreenBus.data.model.dto.BaseEntity;
 import com.greenbus.GreenBus.util.CommonConstants;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = CommonConstants.BUS_COLLECTION_NAME)
@@ -33,4 +35,8 @@ public class Bus extends BaseEntity {
     private LocalDateTime departureDate;
     @Column(nullable = false)
     private LocalDateTime arrivalDate;
+
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Seat> seats;
 }
