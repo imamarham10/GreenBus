@@ -1,9 +1,11 @@
 package com.greenbus.GreenBus.service.impl;
 
 import com.greenbus.GreenBus.dao.BusDao;
+import com.greenbus.GreenBus.dao.PlaceDao;
 import com.greenbus.GreenBus.data.model.dto.ApiResponse;
 import com.greenbus.GreenBus.data.model.dto.BusDto;
 import com.greenbus.GreenBus.data.model.entities.Bus;
+import com.greenbus.GreenBus.data.model.entities.Place;
 import com.greenbus.GreenBus.data.model.entities.Seat;
 import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Status;
@@ -22,6 +24,7 @@ import java.util.List;
 public class BusServiceImpl implements BusService {
     private final BusDao busDao;
     private final ModelMapper modelMapper;
+    private final PlaceDao placeDao;
     @Override
     public ResponseEntity<ApiResponse> createBus(BusDto busDto) {
         Bus bus = modelMapper.map(busDto, Bus.class);
@@ -35,6 +38,10 @@ public class BusServiceImpl implements BusService {
             seat.createEntity();
             seats.add(seat);
         }
+        Place source = placeDao.getPlaceById(busDto.getSource());
+        Place destination = placeDao.getPlaceById(busDto.getDestination());
+        bus.setSource(source);
+        bus.setDestination(destination);
         bus.setSeats(seats);
         bus.createEntity();
         return ResponseUtil.getCreatedResponse(busDao.saveBus(bus));

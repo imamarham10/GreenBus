@@ -32,4 +32,9 @@ public class PlaceDaoImpl implements PlaceDao {
     public List<Place> getAllPlaceByState(String state) {
         return placeRepo.findByState(state);
     }
+
+    @Override
+    public Place getPlaceById(int placeId) {
+        return placeRepo.findById(placeId).orElseThrow(()->new NoSuchElementException("No place exists with id " + placeId));
+    }
 }
