@@ -9,5 +9,5 @@ public interface PlaceDao {
     List<Place> getAllPlace();
     Place getPlaceByName(String name);
     List<Place> getAllPlaceByState(String state);
-
+    Place getPlaceById(int placeId);
 }
