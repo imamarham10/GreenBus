@@ -1,7 +1,6 @@
 package com.greenbus.GreenBus.data.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.greenbus.GreenBus.data.model.dto.BaseEntity;
 import com.greenbus.GreenBus.util.CommonConstants;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,7 +26,6 @@ public class Bus extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "source_id", nullable = false)
     private Place source;
-
     @ManyToOne
     @JoinColumn(name = "destination_id", nullable = false)
     private Place destination;
@@ -35,8 +33,9 @@ public class Bus extends BaseEntity {
     private LocalDateTime departureDate;
     @Column(nullable = false)
     private LocalDateTime arrivalDate;
-
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Seat> seats;
+    @Column(nullable = false)
+    private boolean isRecurring;
 }

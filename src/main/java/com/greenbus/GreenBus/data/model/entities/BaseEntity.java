@@ -1,4 +1,4 @@
-package com.greenbus.GreenBus.data.model.dto;
+package com.greenbus.GreenBus.data.model.entities;
 
 import com.greenbus.GreenBus.util.CommonUtil;
 import jakarta.persistence.MappedSuperclass;

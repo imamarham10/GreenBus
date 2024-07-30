@@ -14,4 +14,5 @@ public class BusDto {
     private int numberOfSeats;
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
+    private boolean isRecurring;
 }
