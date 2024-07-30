@@ -7,4 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface BusService {
     public ResponseEntity<ApiResponse> createBus(BusDto busDto);
+    public ResponseEntity<ApiResponse> getAllBuses();
+    public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(String source, String destination);
 }

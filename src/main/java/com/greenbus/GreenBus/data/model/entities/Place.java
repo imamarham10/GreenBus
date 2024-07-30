@@ -1,6 +1,5 @@
 package com.greenbus.GreenBus.data.model.entities;
 
-import com.greenbus.GreenBus.data.model.dto.BaseEntity;
 import com.greenbus.GreenBus.util.CommonConstants;
 import jakarta.persistence.*;
 import lombok.Data;

@@ -46,4 +46,21 @@ public class BusServiceImpl implements BusService {
         bus.createEntity();
         return ResponseUtil.getCreatedResponse(busDao.saveBus(bus));
     }
+
+    @Override
+    public ResponseEntity<ApiResponse> getAllBuses() {
+        return ResponseUtil.getOkResponse(busDao.getAllBuses());
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(String sourceName, String destinationName) {
+        Place source = placeDao.getPlaceByName(sourceName);
+        Place destination = placeDao.getPlaceByName(destinationName);
+
+        if(source == null || destination == null) {
+            return ResponseUtil.getBadRequestResponse(null);
+        }
+        return ResponseUtil.getOkResponse(busDao.getAllBusesBySourceAndDestination(source,destination));
+
+    }
 }

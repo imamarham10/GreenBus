@@ -1,7 +1,6 @@
 package com.greenbus.GreenBus.data.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.greenbus.GreenBus.data.model.dto.BaseEntity;
 import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Status;
 import com.greenbus.GreenBus.util.CommonConstants;

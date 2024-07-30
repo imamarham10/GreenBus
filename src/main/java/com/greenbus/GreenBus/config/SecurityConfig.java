@@ -28,7 +28,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/users/login**", "/users/register", "/users/demo",
-                                "/users/login", "/users/verify", "place/all", "/place/by-name/**")
+                                "/users/login", "/users/verify", "/place/all", "/place/by-name/**", "/buses/all", "/buses/{source}/{destination}")
                         .permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest()
