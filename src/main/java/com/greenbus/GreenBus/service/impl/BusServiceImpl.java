@@ -10,14 +10,20 @@ import com.greenbus.GreenBus.data.model.entities.Seat;
 import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Status;
 import com.greenbus.GreenBus.service.BusService;
+import com.greenbus.GreenBus.util.CommonConstants;
 import com.greenbus.GreenBus.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +68,22 @@ public class BusServiceImpl implements BusService {
         }
         return ResponseUtil.getOkResponse(busDao.getAllBusesBySourceAndDestination(source,destination));
 
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String sourceName, String destinationName, String date) {
+        Place source = placeDao.getPlaceByName(sourceName);
+        Place destination = placeDao.getPlaceByName(destinationName);
+        LocalDate requestedDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+
+        List<Bus> buses = busDao.getAllBusesBySourceAndDestination(source, destination);
+        List<Bus> filteredBuses = buses.stream()
+                .filter(bus -> bus.isRecurring() || bus.getDepartureDate().toLocalDate().equals(requestedDate))
+                .toList();
+
+        if (filteredBuses.isEmpty()) {
+            return ResponseUtil.getNotFoundResponse("No buses found for the given source, destination, and date");
+        }
+        return ResponseUtil.getOkResponse(filteredBuses);
     }
 }
