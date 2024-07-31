@@ -29,7 +29,12 @@ public class BusController {
     }
 
     @GetMapping("/{source}/{destination}")
-    public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(@PathVariable String source,@PathVariable String destination){
-        return busService.getAllBusesBySourceAndDestination(source,destination);
+    public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(@PathVariable String source, @PathVariable String destination) {
+        return busService.getAllBusesBySourceAndDestination(source, destination);
+    }
+
+    @GetMapping("/{source}/{destination}/{date}")
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(@PathVariable String source, @PathVariable String destination, @PathVariable String date){
+        return busService.getAllBusesBySourceDestinationDate(source, destination, date);
     }
 }

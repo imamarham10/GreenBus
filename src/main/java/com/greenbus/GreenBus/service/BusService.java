@@ -9,4 +9,5 @@ public interface BusService {
     public ResponseEntity<ApiResponse> createBus(BusDto busDto);
     public ResponseEntity<ApiResponse> getAllBuses();
     public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(String source, String destination);
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String source, String destination, String date);
 }
