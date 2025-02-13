@@ -10,10 +10,10 @@ import com.greenbus.GreenBus.data.model.entities.Seat;
 import com.greenbus.GreenBus.data.model.enums.Gender;
 import com.greenbus.GreenBus.data.model.enums.Status;
 import com.greenbus.GreenBus.service.BusService;
-import com.greenbus.GreenBus.util.CommonConstants;
 import com.greenbus.GreenBus.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +54,8 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> getAllBuses() {
-        return ResponseUtil.getOkResponse(busDao.getAllBuses());
+    public ResponseEntity<ApiResponse> getAllBuses(Integer pageNumber, Integer pageSize) {
+        return ResponseUtil.getOkResponse(busDao.getAllBuses(pageNumber, pageSize));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String sourceName, String destinationName, String date) {
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String sourceName, String destinationName, String date, Integer pageNumber, Integer pageSize) {
         Place source = placeDao.getPlaceByName(sourceName);
         Place destination = placeDao.getPlaceByName(destinationName);
         LocalDate requestedDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -84,6 +84,17 @@ public class BusServiceImpl implements BusService {
         if (filteredBuses.isEmpty()) {
             return ResponseUtil.getNotFoundResponse("No buses found for the given source, destination, and date");
         }
-        return ResponseUtil.getOkResponse(filteredBuses);
+        int start = Math.min(pageNumber * pageSize, filteredBuses.size());
+        int end = Math.min((pageNumber+1) * pageSize, filteredBuses.size());
+        List<Bus> paginatedBuses = filteredBuses.subList(start, end);
+        Page<Bus> result = new PageImpl<>(paginatedBuses, PageRequest.of(pageNumber, pageSize), filteredBuses.size());
+
+        return ResponseUtil.getOkResponse(result);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> sortBuses(String sortBy, String sortDirection, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.fromString(sortDirection), sortBy);
+        return ResponseUtil.getOkResponse(busDao.getSortedBuses(pageable));
     }
 }

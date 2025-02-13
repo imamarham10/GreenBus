@@ -23,9 +23,8 @@ public class BusController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse> getAllBuses() {
-        ResponseEntity<ApiResponse> response = busService.getAllBuses();
-        return busService.getAllBuses();
+    public ResponseEntity<ApiResponse> getAllBuses(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+        return busService.getAllBuses(pageNumber,pageSize);
     }
 
     @GetMapping("/{source}/{destination}")
@@ -34,7 +33,11 @@ public class BusController {
     }
 
     @GetMapping("/{source}/{destination}/{date}")
-    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(@PathVariable String source, @PathVariable String destination, @PathVariable String date){
-        return busService.getAllBusesBySourceDestinationDate(source, destination, date);
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(@PathVariable String source, @PathVariable String destination, @PathVariable String date, @RequestParam Integer pageNumber, @RequestParam Integer pageSize){
+        return busService.getAllBusesBySourceDestinationDate(source, destination, date, pageNumber, pageSize);
+    }
+
+    public ResponseEntity<ApiResponse> sortBuses(@RequestParam String sortBy, @RequestParam String sortDirection, @RequestParam Integer pageNumber, @RequestParam Integer pageSize){
+        return busService.sortBuses(sortBy, sortDirection, pageNumber, pageSize);
     }
 }

@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface BusService {
     public ResponseEntity<ApiResponse> createBus(BusDto busDto);
-    public ResponseEntity<ApiResponse> getAllBuses();
+    public ResponseEntity<ApiResponse> getAllBuses(Integer pageNumber, Integer pageSize);
     public ResponseEntity<ApiResponse> getAllBusesBySourceAndDestination(String source, String destination);
-    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String source, String destination, String date);
+    public ResponseEntity<ApiResponse> getAllBusesBySourceDestinationDate(String source, String destination, String date, Integer pageNumber, Integer pageSize);
+    public ResponseEntity<ApiResponse> sortBuses(String sortBy, String sortDirection, Integer pageNumber, Integer pageSize);
 }

@@ -5,6 +5,10 @@ import com.greenbus.GreenBus.data.model.entities.Bus;
 import com.greenbus.GreenBus.data.model.entities.Place;
 import com.greenbus.GreenBus.repo.BusRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,12 +23,17 @@ public class BusDaoImpl implements BusDao {
     }
 
     @Override
-    public List<Bus> getAllBuses() {
-        return busRepo.findAll();
+    public Page<Bus> getAllBuses(Integer pageNumber, Integer pageSize) {
+        return busRepo.findAll(PageRequest.of(pageNumber, pageSize));
     }
 
     @Override
     public List<Bus> getAllBusesBySourceAndDestination(Place source, Place destination) {
         return busRepo.findBySourceAndDestination(source, destination);
+    }
+
+    @Override
+    public Page<Bus> getSortedBuses(Pageable pageable) {
+        return busRepo.findAll(pageable);
     }
 }
